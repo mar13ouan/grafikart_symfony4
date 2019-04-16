@@ -6,6 +6,7 @@ use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,7 +21,7 @@ class PropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, Property::class);
     }
 
-   
+
     /**
      * @return Property[] Returns an array of Property objects
      */
@@ -37,7 +38,7 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
 
-    public function findOneBySomeField($value): ? Property
+    public function findOneBySomeField($value): ?Property
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
@@ -49,17 +50,16 @@ class PropertyRepository extends ServiceEntityRepository
     /**
      * @return Property[]
      */
-    public function findAllVisible() : array
+    public function findAllVisible(): Query
     {
         return $this->finVisibleQuery()
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
     /**
      * @return Property[]
      */
-    public function findLatest() : array
+    public function findLatest(): array
     {
         return $this->finVisibleQuery()
             ->setMaxResults(4)
@@ -67,10 +67,9 @@ class PropertyRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    private function finVisibleQuery() : QueryBuilder
+    private function finVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
-        ->where('p.sold = false');
+            ->where('p.sold = false');
     }
-
 }

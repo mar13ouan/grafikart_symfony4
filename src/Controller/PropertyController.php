@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\PropertyRepository;
 use App\Entity\Property;
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PropertyController extends AbstractController
 {
@@ -37,16 +39,16 @@ class PropertyController extends AbstractController
      * @Route("/biens", name="property.index")
      * @return Response
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        // dump($this->repository);
-        // $property = $this->repository->findAllVisible();
-        // $property[0]->setSold(true);
-        // $this->em->flush();
-
-        // dump($property);
+        $properties = $paginator->paginate(
+            $this->repository->findAllVisible(),
+            $request->query->getInt('page', 1),
+            12
+        );
         return $this->render('property/index.html.twig', [
-            'current_menu' => 'properties'
+            'current_menu' => 'properties',
+            'properties' => $properties
         ]);
     }
 
@@ -61,10 +63,11 @@ class PropertyController extends AbstractController
         if ($property->getSlug() !== $slug) {
             return $this->redirectToRoute(
                 'property.show',
-                [   
+                [
                     'id' => $property->getId(),
                     'slug' => $property->getSlug()
-                ], 301
+                ],
+                301
             );
         }
         return $this->render(

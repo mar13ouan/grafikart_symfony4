@@ -3,9 +3,20 @@
 
 {% block title 'Tous nos biens' %}
 
-{% block body %}
-    <div class="container mt-4">
-        <h1>Voir tous nos biens</h1>
-    </div>
+    {% block body %}
+        <div class="container mt-4">
+            <h1>Voir tous nos biens</h1>
 
-{% endblock %}
+            <div class="row mt-4">
+                {% for property in properties %}
+                    <div class="col-md-4">
+                        {% include "property/_property.html.twig" %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="pagination d-flex justify-content-center">
+                {{ knp_pagination_render(properties) }}
+            </div>
+        </div>
+
+    {% endblock %}

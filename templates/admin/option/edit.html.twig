@@ -1,0 +1,16 @@
+{% extends 'base.html.twig'%}
+{% block title 'Editions' %}
+    {% block body %}
+        <div class="container mt-4">
+            <h1>Editer le bien</h1>
+        {{ include( 'admin/option/_form.html.twig', { button:'Editer'}) }}
+        </div>
+    {% endblock %}
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css">
+    {% endblock %}
+    {% block javascripts %}
+    <script src"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" >
+    $('select').select2();
+    </script>
+    {% endblock %}

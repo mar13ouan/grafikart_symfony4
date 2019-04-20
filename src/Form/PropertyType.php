@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Option;
 
 class PropertyType extends AbstractType
 {
@@ -20,6 +22,11 @@ class PropertyType extends AbstractType
             ->add('bedrooms')
             ->add('floor')
             ->add('price')
+            ->add('options', EntityType::class, [
+                'class' => 'App:Option',
+                'choice_label' => 'name',
+                'multiple' => true
+            ])
             ->add('heat', ChoiceType::class, [
                 'choices' => $this->getChoices()
             ])
@@ -36,13 +43,13 @@ class PropertyType extends AbstractType
             'translation_domain' => 'forms'
         ]);
     }
-    
+
     /**
      * Undocumented function
      *
      * @return array
      */
-    public function getChoices() : array
+    public function getChoices(): array
     {
         $choices = Property::HEAT;
         $output = [];
@@ -50,5 +57,9 @@ class PropertyType extends AbstractType
             $output[$v] = $k;
         }
         return $output;
+    }
+    public function getBlockPrefix()
+    {
+        return "";
     }
 }

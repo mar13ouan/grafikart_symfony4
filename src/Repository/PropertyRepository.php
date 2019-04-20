@@ -7,10 +7,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
+use App\Entity\PropertySearch;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
  * @method Property|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Property[]    findAllVisibleQuery()
  * @method Property[]    findAll()
  * @method Property[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -52,7 +54,7 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function findAllVisible(): Query
     {
-        return $this->finVisibleQuery()
+        return $this->findVisibleQuery()
             ->getQuery();
     }
 
@@ -61,15 +63,41 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function findLatest(): array
     {
-        return $this->finVisibleQuery()
+        return $this->findVisibleQuery()
             ->setMaxResults(4)
             ->getQuery()
             ->getResult();
     }
 
-    private function finVisibleQuery(): QueryBuilder
+    private function findVisibleQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->where('p.sold = false');
+    }
+
+    public function findAllVisibleQuery(PropertySearch $search): Query
+    {
+        $query = $this->findVisibleQuery();
+        if ($search->getMaxPrice()) {
+            $query = $query
+                ->Where('p.price <=:maxprice')
+                ->setParameter('maxprice', $search->getMaxPrice());
+        }
+        if ($search->getMinSurface()) {
+            $query = $query
+                ->andWhere('p.surface >=:minsurface')
+                ->setParameter('minsurface', $search->getMinSurface());
+        }
+
+
+        dump($search);
+        if ($search->getOptions()->count() > 0) {
+            foreach ($search->getOptions() as $k => $option) {
+                $query = $query
+                    ->andWhere(":option$k Member of p.options")
+                    ->setParameter("option$k", $option);
+            }
+        }
+        return $query->getQuery();
     }
 }

@@ -10,6 +10,7 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Option;
 
 class AdminPropertyController extends AbstractController
 {
@@ -75,10 +76,12 @@ class AdminPropertyController extends AbstractController
      */
     public function edit(Property $property, Request $request) : Response
     {
+
         $form = $this->createForm(PropertyType::class , $property);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()&& $form->isValid()) {
+            $this->em->persist($property);
             $this->em->flush();
             $this->addFlash('success','Bien Modifié avec succés');
             return $this->redirectToRoute('admin.property.index');

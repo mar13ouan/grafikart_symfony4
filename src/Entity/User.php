@@ -28,7 +28,6 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
-    
     public function serialize()
     {
         return serialize([

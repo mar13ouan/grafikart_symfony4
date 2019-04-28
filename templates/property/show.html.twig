@@ -6,6 +6,17 @@
     {% block body %}
         <div class="jumbotron">
             <div class="container">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{message}}
+                    </div>
+                {% endfor %}
+
+                {% if not form.vars.valid %}
+                    <div class="alert alert-danger">
+                        le formulaire n'est pas valide !!! déconne pas !!
+                    </div>
+                {% endif %}
 
 
                 <div class="row">
@@ -27,9 +38,25 @@
                             {{property.formattedPrice}}
                             €
                         </div>
-                        <a class="btn btn-primary" href="">
+                        <a class="btn btn-primary" href="#">
                             Contacter l'agence
                         </a>
+                        <div class="mt-4" id="contactForm">
+                            {{form_start(form)}}
+                            <div class="row">
+                                <div class="col">{{form_row(form.firstname)}}</div>
+                                <div class="col">{{form_row(form.lastname)}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{form_row(form.phone)}}</div>
+                                <div class="col">{{form_row(form.email)}}</div>
+                            </div>
+                            {{form_rest(form)}}
+                            <button class="btn btn-primary">
+                                Envoyer
+                            </button>
+                            {{form_end(form)}}
+                        </div>
                     </div>
 
                 </div>

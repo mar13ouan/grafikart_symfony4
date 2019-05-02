@@ -38,10 +38,10 @@
                             {{property.formattedPrice}}
                             €
                         </div>
-                        <a class="btn btn-primary" href="#">
+                        <a class="btn btn-primary" {% if form.vars.submitted %} style="display:none;" {% endif %} href="#" id="contactButton">
                             Contacter l'agence
                         </a>
-                        <div class="mt-4" id="contactForm">
+                        <div class="mt-4" {% if not form.vars.submitted %} style="display: none;" {% endif %} id="contactForm">
                             {{form_start(form)}}
                             <div class="row">
                                 <div class="col">{{form_row(form.firstname)}}</div>

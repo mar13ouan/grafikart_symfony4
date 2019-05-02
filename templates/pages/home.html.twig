@@ -1,28 +1,20 @@
 {% extends 'base.html.twig'%}
 {% block title 'Agence YOP !' %}
-{% block body %}
-    <div class="jumbotron text-center">
-        <h1>Bienvenue sur l'Agence YOP'</h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                Amet cum ut saepe eum possimus itaque optio autem nostrum. Iusto rem nihil architecto porro facere tempora laboriosam consequatur ut a ratione.</p>
-    </div>
+    {% block body %}
+        <div class="jumbotron text-center">
+            <h1>Bienvenue sur l'Agence YOP'</h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                                Amet cum ut saepe eum possimus itaque optio autem nostrum. Iusto rem nihil architecto porro facere tempora laboriosam consequatur ut a ratione.</p>
+        </div>
 
-    <div class="container">
-    <h2>Les derniers biens</h2>
-    <div class="row flex">
-    {% for property in properties %}
-        <div class="col-3">
-            <div class="card bg-light mb-3" style="max-width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">
-                    <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }} ">{{property.title}}</a>
-                    </h5>
-                    <p class="card-text"> {{property.city}} {{property.postalCode}} </p>
-                    <div class="text-primary" style="font-weight: bold; font-size: 2rem;" >{{ property.formattedPrice }} €</div>
-                </div>
+        <div class="container">
+            <h2>Les derniers biens</h2>
+            <div class="row flex">
+                {% for property in properties %}
+                    <div class="col-3">
+                        {% include 'property/_property.html.twig' %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
-    {% endfor %}
-    </div>
-    </div>
-{% endblock %}
+    {% endblock %}

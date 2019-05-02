@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\Entity\Property;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use App\Entity\Picture;
 
 class ImageCacheSubscriber implements EventSubscriber
 {
@@ -44,7 +45,7 @@ class ImageCacheSubscriber implements EventSubscriber
     public function preRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof Property) {
+        if (!$entity instanceof Picture) {
             return;
         }
         $this->cacheManager->remove(
@@ -57,7 +58,7 @@ class ImageCacheSubscriber implements EventSubscriber
     {
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Property) {
+        if (!$entity instanceof Picture) {
             return;
         }
         if ($entity->getImageFile() instanceof UploadedFile) {

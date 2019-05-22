@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "basho/riak": "^3.4",
+        "beberlei/DoctrineExtensions": "^1.2",
         "cocur/slugify": "^3.2",
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "fzaninotto/faker": "^1.8",

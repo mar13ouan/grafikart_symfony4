@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container col-md-8 col-md-offset-2">
+        <div class="row mt-5">
+            <div class=" col-md-4">
+                <h2>
+                    Hello c'est l'import
+                </h2>
+            </div>
+            <div class="col-md-2">
+
+                <a href="{{path('import', {launch: true })}}">
+                    <button class="btn btn-danger">Launch
+                    </button>
+                </a>
+
+            </div>
+            <div class="col-md-2">
+                <a href="{{path('import', {launch: false })}}">
+                    <button class="btn btn-primary">Stop
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+        <div class="row"></div>
+
+        <div class="row">
+            <div class="container">
+
+                {% if data['status'] ==  true  %}
+                    <h2>Démarrage de l'import</h2>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
